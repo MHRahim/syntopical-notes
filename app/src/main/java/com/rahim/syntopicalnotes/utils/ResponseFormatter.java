@@ -12,7 +12,6 @@ public class ResponseFormatter {
         ResponseMetadata respMetadata = new ResponseMetadata(statusCode, message, statusString);
         Response<T> resp = new  Response<>(respMetadata, data);
 
-
         return ResponseEntity
                 .status(statusCode)
                 .body(resp);
@@ -23,5 +22,3 @@ public class ResponseFormatter {
     public record Response<T>(ResponseMetadata meta, T data){}
 
 }
-
-

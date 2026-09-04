@@ -3,61 +3,65 @@ package com.rahim.syntopicalnotes.services.auth;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Base64.Decoder;
+import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+@Service
 public class JWTService {
-    
-    private final String secret_key = "239rjf329f8w3fejwe98fwe9f932j9gj549";
-    private final Long expirationDate = 1000l * 60 * 60 * 24 * 240;
+    private final String secret;
+    private final Long expirationTime;
 
+    public JWTService(
+        @Value("${jwt.secret}") String secret,
+        @Value("${jwt.expiration-ms}") String expirationTime
+    ) {
+        this.secret = secret;
+        this.expirationTime = Long.parseLong(expirationTime);
+    }
 
-    public String generateToken(Long id) {
-
+    public String generateJWTToken(Long id) {
         Map<String, Object> claims = new HashMap<>();
-        
+
         return Jwts
             .builder()
-            .setClaims(claims)
+            .setHeader(claims)
             .setSubject(String.valueOf(id))
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis()+ expirationDate))
-            .signWith(getSecretKey())
+            .setExpiration(new Date(System.currentTimeMillis() + this.expirationTime))
+            .signWith(this.getSecretKey())
             .compact();
     }
 
-    public Long extractSubject(String token) {
-        String stringId = extractAClaim(token, Claims::getSubject);
-        return Long.parseLong(stringId);
+    public Long extractSubjectFromJwtToken(String token) {
+        String subjectString = extractClaim(token, Claims::getSubject);
+        return Long.parseLong(subjectString);
     }
 
-    private <T> T extractAClaim(String token, Function<Claims, T> claimFunction) {
-        Claims claims = extractAllClaims(token);
-        return claimFunction.apply(claims);
+    private <T> T extractClaim(String token, Function<Claims, T> claimExtractor) {
+        Claims allClaims = this.extractAllClaims(token);
+        return claimExtractor.apply(allClaims);
     }
 
-    private Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token) {
         return Jwts
             .parserBuilder()
-            .setSigningKey(getSecretKey())
+            .setSigningKey(this.getSecretKey())
             .build()
-            .parseClaimsJwt(token)
+            .parseClaimsJws(token)
             .getBody();
     }
 
     private SecretKey getSecretKey() {
-        byte[] secretByteKey = Decoders.BASE64.decode(secret_key);
-        return Keys.hmacShaKeyFor(secretByteKey);
+       byte[] decodedSecretKey = Decoders.BASE64.decode(this.secret); 
+       return Keys.hmacShaKeyFor(decodedSecretKey);
     }
 }

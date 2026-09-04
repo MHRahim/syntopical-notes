@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.rahim.syntopicalnotes.domains.dto.core.ValidationExceptionDto;
+import com.rahim.syntopicalnotes.exceptions.ResourceNotFoundException;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -45,5 +46,10 @@ public class GlobalExceptionHandler {
         
         ValidationExceptionDto validationExceptionDto = new ValidationExceptionDto(errorMap);
         return responseFormatter.send(422, message, validationExceptionDto);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundExceptions() {
+        return this.responseFormatter.send(404, "Content not found.", null);
     }
 }

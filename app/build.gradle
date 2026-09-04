@@ -110,6 +110,16 @@ tasks.register('seed', JavaExec) {
     systemProperty 'spring.profiles.active', 'seed'
 }
 
+tasks.register('beans', JavaExec) {
+    group = 'application'
+    description = 'List all the beans'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.rahim.syntopicalnotes.beanslist.BeansList'
+
+    systemProperty 'spring.profiles.active', 'beanslist'
+}
+
 tasks.register('util', JavaExec) {
     group = 'application'
     description = 'Test utility'

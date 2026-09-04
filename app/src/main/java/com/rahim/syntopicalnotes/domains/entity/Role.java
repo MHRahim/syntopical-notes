@@ -3,6 +3,9 @@ package com.rahim.syntopicalnotes.domains.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +29,7 @@ public class Role {
     private String name;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private User[] users;    
+    private List<User> users;    
 }
 
 

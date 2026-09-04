@@ -2,21 +2,31 @@ package com.rahim.syntopicalnotes.domains.dto.auth;
 
 import java.util.Collection;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class UserPrincipal implements UserDetails {
 
+    private Long id;
     private String username;
-    private String password;
+    // private String password;
+    private final Collection<? extends GrantedAuthority> authorities;
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return "";
+    }
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
@@ -26,10 +36,6 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
 	}
 
 	@Override
@@ -44,7 +50,7 @@ public class UserPrincipal implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return this.authorities;
 	}
 
 	@Override
@@ -66,6 +72,4 @@ public class UserPrincipal implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
-    
 }

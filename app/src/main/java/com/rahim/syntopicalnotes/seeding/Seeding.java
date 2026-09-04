@@ -22,7 +22,6 @@ public class Seeding implements CommandLineRunner {
 
     private final Map<String, Seeder> seedersList;
 
-    @Autowired
     public Seeding(@Qualifier("seedersList") Map<String, Seeder> sl) {
         this.seedersList = sl;
     }
