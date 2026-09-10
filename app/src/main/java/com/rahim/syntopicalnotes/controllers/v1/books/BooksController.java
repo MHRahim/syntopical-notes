@@ -10,12 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rahim.syntopicalnotes.domains.dto.books.BookDto;
 import com.rahim.syntopicalnotes.domains.dto.books.ListBooksDto;
-import com.rahim.syntopicalnotes.domains.entity.Book;
-import com.rahim.syntopicalnotes.mappers.books.ListBooksMapper;
-import com.rahim.syntopicalnotes.repositories.BookRepository;
 import com.rahim.syntopicalnotes.services.books.BookService;
 import com.rahim.syntopicalnotes.utils.ResponseFormatter;
-import com.rahim.syntopicalnotes.utils.ResponseFormatter.Response;
 
 import lombok.AllArgsConstructor;
 

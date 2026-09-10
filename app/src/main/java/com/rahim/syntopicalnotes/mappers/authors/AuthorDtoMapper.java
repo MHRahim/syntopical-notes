@@ -9,7 +9,7 @@ import com.rahim.syntopicalnotes.domains.entity.Author;
 import com.rahim.syntopicalnotes.mappers.Mapper;
 
 @Component
-public class AuthorMapper implements Mapper<AuthorDto, Author> {
+public class AuthorDtoMapper implements Mapper<AuthorDto, Author> {
 
     @Override
     public AuthorDto mapFrom(Author a) {

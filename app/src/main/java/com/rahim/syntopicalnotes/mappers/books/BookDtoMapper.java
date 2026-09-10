@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.rahim.syntopicalnotes.domains.dto.books.BookDto;
 import com.rahim.syntopicalnotes.domains.entity.Book;
 import com.rahim.syntopicalnotes.mappers.Mapper;
-import com.rahim.syntopicalnotes.mappers.authors.AuthorMapper;
+import com.rahim.syntopicalnotes.mappers.authors.AuthorDtoMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BookDtoMapper implements Mapper<BookDto, Book> {
 
-    private final AuthorMapper authorMapper;
+    private final AuthorDtoMapper authorMapper;
 
     @Override
     public BookDto mapFrom(Book b) {
